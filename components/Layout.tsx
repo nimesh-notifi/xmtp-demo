@@ -12,9 +12,15 @@ import React, { useEffect, useState } from "react";
 import useListConversations from "../hooks/useListConversations";
 import { useXmtpStore } from "../store/xmtp";
 import useWindowSize from "../hooks/useWindowSize";
+import { Modal } from "./Modal";
+import { NotifiContextWrapper } from "./contexts/NotifiContextWrapper";
+import { NotifiSubscriptionCard } from "@notifi-network/notifi-react-card";
+import { NotifiModal } from "./NotifiModal";
 
 const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const client = useXmtpStore((state) => state.client);
+  const [showNotifiModal, setShowNotifiModal] = useState<boolean>(false);
+
   const resetXmtpState = useXmtpStore((state) => state.resetXmtpState);
   const recipientWalletAddress = useXmtpStore(
     (state) => state.recipientWalletAddress,
@@ -69,6 +75,7 @@ const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
             </div>
             <NavigationPanel isError={!!error} />
             <UserMenu
+              setShowNotifiModal={setShowNotifiModal}
               isError={!!error}
               setShowMessageView={setShowMessageView}
             />
@@ -80,6 +87,11 @@ const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
 
   return (
     <>
+      <NotifiModal
+        show={showNotifiModal}
+        setShowNotifiModal={setShowNotifiModal}
+      />
+
       <Head>
         <title>Chat via XMTP</title>
         <meta

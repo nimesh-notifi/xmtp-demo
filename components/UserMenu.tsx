@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { CogIcon } from "@heroicons/react/solid";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, useState } from "react";
 import { classNames, tagStr, wipeKeys } from "../helpers";
 import Address from "./Address";
 import { Tooltip } from "./Tooltip/Tooltip";
@@ -8,7 +8,7 @@ import packageJson from "../package.json";
 import Avatar from "./Avatar";
 import QRCode from "react-qr-code";
 import { Modal } from "./Modal";
-import { ClipboardCopyIcon } from "@heroicons/react/outline";
+import { BellIcon, ClipboardCopyIcon } from "@heroicons/react/outline";
 import { useXmtpStore } from "../store/xmtp";
 import { useAccount, useDisconnect } from "wagmi";
 import useHandleConnect from "../hooks/useHandleConnect";
@@ -16,9 +16,14 @@ import useHandleConnect from "../hooks/useHandleConnect";
 type UserMenuProps = {
   isError: boolean;
   setShowMessageView?: Function;
+  setShowNotifiModal: Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NotConnected = ({ isError }: UserMenuProps): JSX.Element => {
+type UserMenuNotConnectedProps = {
+  isError: boolean;
+};
+
+const NotConnected = ({ isError }: UserMenuNotConnectedProps): JSX.Element => {
   const { handleConnect } = useHandleConnect();
 
   return (
@@ -56,6 +61,7 @@ const NotConnected = ({ isError }: UserMenuProps): JSX.Element => {
 const UserMenu = ({
   isError,
   setShowMessageView,
+  setShowNotifiModal,
 }: UserMenuProps): JSX.Element => {
   const { address: walletAddress } = useAccount();
   const [showQrModal, setShowQrModal] = useState<boolean>(false);
@@ -121,7 +127,16 @@ const UserMenu = ({
                   </div>
                 )}
               </div>
+
               <div className="flex items-center">
+                <BellIcon
+                  height="24"
+                  className="mr-2"
+                  style={{ cursor: "pointer" }}
+                  color="white"
+                  onClick={() => setShowNotifiModal(true)}
+                />
+
                 {tagStr() && (
                   <Tooltip message="You are connected to the dev network">
                     <div className="bg-p-200 font-bold mr-1 text-sm p-1 rounded cursor-pointer">
