@@ -5,6 +5,7 @@ import UserMenu from "../UserMenu";
 
 const props = {
   isError: false,
+  setShowNotifiModal: () => {},
 };
 
 describe("<UserMenu />", () => {
