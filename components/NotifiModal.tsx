@@ -50,7 +50,7 @@ export const NotifiModal = ({ setShowNotifiModal, show }: Props) => {
         <NotifiContextWrapper>
           <NotifiSubscriptionCard
             inputs={{ XMTPTopics: topics }}
-            cardId="f94c8ab903d849e2b70204c4357372cc"
+            cardId="62f835e4d2e1463cb56f228eb2c84f4a"
           />
         </NotifiContextWrapper>
       )}

@@ -16,8 +16,8 @@ export const NotifiContextWrapper = ({ children }: Props) => {
 
   return (
     <NotifiContext
-      dappAddress="junitest.xyz"
-      env="Development"
+      dappAddress="notifixmtpdemo"
+      env="Production"
       signMessage={async (message: Uint8Array) => {
         const result = await signMessageAsync({ message });
         return arrayify(result);
